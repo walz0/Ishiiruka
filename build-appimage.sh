@@ -20,6 +20,7 @@ UPDATETOOL_URL="${UPDATETOOL_PATH}/${UPDATETOOL_FILE}"
 DESKTOP_APP_URL="https://github.com/project-slippi/slippi-desktop-app"
 DESKTOP_APP_SYS_PATH="./slippi-desktop-app/app/dolphin-dev/overwrite/Sys"
 
+DATA_HOOKS="./Data/hooks"
 APPDIR_BIN="./AppDir/usr/bin"
 APPDIR_HOOKS="./AppDir/apprun-hooks"
 
@@ -42,7 +43,7 @@ rm -rf ./AppDir/
 
 # Add the linux-env script to the AppDir prior to running linuxdeploy
 mkdir -p ${APPDIR_HOOKS}
-cp Data/linux-env.sh ${APPDIR_HOOKS}
+cp -r "${DATA_HOOKS}/." "${APPDIR_HOOKS}/"
 
 # Build the AppDir directory for this image
 mkdir -p AppDir
