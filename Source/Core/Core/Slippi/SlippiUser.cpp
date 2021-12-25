@@ -187,32 +187,11 @@ void SlippiUser::OpenLogInPage()
 
 bool SlippiUser::UpdateApp()
 {
-#ifdef _WIN32
-	auto isoPath = SConfig::GetInstance().m_strFilename;
-
-	std::string path = File::GetExeDirectory() + "/dolphin-slippi-tools.exe";
-	std::string echoMsg = "echo Starting update process. If nothing happens after a few "
-	                      "minutes, you may need to update manually from https://slippi.gg/netplay ...";
-
-	// Check if updater exists, anti-virus sometimes deletes it
-	if (!File::Exists(path))
-	{
-		ERROR_LOG(SLIPPI_ONLINE, "Update requested but updater does not exist.");
-		OSD::AddMessage("Updater cannot be found. Please download the latest Slippi version from slippi.gg.", 30000, 0xFFFF0000);
-		return false;
+	const char *spawned_by_launcher = getenv("SLIPPI_LAUNCHER_SPAWN");
+	if (strlen(spawned_by_launcher)) {
+		return true;
 	}
-
-	std::string command = "start /b cmd /c " + echoMsg + " && \"" + path + "\" app-update -launch -iso \"" + isoPath +
-	                      "\" -version \"" + scm_slippi_semver_str + "\"";
-	WARN_LOG(SLIPPI, "Executing app update command: %s", command);
-	RunSystemCommand(command);
-	return true;
-#elif defined(__APPLE__)
-	CriticalAlertT(
-		"Automatic updates are not available for standalone Netplay builds on macOS. Please get the Slippi Launcher from slippi.gg/netplay."
-	);
-	return false;
-#else
+#if !defined(_WIN32) && !defined(__APPLE__)
 	const char *appimage_path = getenv("APPIMAGE");
 	const char *appmount_path = getenv("APPDIR");
 	if (!strlen(appimage_path))
@@ -223,11 +202,15 @@ bool SlippiUser::UpdateApp()
 	std::string path(appimage_path);
 	std::string mount_path(appmount_path);
 	std::string command = mount_path + "/usr/bin/appimageupdatetool " + path;
-	WARN_LOG(SLIPPI, "Executing app update command: %s", command.c_str());
+	INFO_LOG(SLIPPI, "Executing app update command: %s", command.c_str());
 	RunSystemCommand(command);
-	CriticalAlertT("Restart Dolphin to finish the update. If there was an issue, please head over to the Slippi "
-	               "Discord for support.");
-	return true;
+	CriticalAlertT("Failed to update, please head over to the Slippi Discord for support.");
+	return false;
+#else
+	CriticalAlertT(
+		"Automatic updates are not available for standalone Netplay builds. Please get the Slippi Launcher from slippi.gg/netplay."
+	);
+	return false;
 #endif
 }
 

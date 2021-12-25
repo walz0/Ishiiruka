@@ -1115,7 +1115,7 @@ void CEXISlippi::prepareGeckoList()
 
 	    {0x802f6690, true}, // HUD Transparency v1.1 (https://smashboards.com/threads/transparent-hud-v1-1.508509/)
 	    {0x802F71E0, true}, // Smaller "Ready, GO!" (https://smashboards.com/threads/smaller-ready-go.509740/)
-		{0x80071960, true}, // Yellow During IASA (https://smashboards.com/threads/color-overlays-for-iasa-frames.401474/post-19120928)
+	    {0x80071960, true}, // Yellow During IASA (https://smashboards.com/threads/color-overlays-for-iasa-frames.401474/post-19120928)
 	};
 
 	std::unordered_map<u32, bool> blacklist;
@@ -2813,14 +2813,13 @@ void CEXISlippi::handleLogOutRequest()
 
 void CEXISlippi::handleUpdateAppRequest()
 {
-	bool isUpdating = user->UpdateApp();
-#ifdef _WIN32
-	if (isUpdating)
+	bool shouldExit = user->UpdateApp();
+	if (shouldExit)
 	{
 		main_frame->LowerRenderWindow();
 		main_frame->DoExit();
 	}
-#endif
+	return;
 }
 
 void CEXISlippi::prepareOnlineStatus()
