@@ -209,14 +209,13 @@ bool SlippiUser::UpdateApp()
 	return true;
 #elif defined(__APPLE__)
 	CriticalAlertT(
-		"Automatic updates are not available for standalone Netplay builds on macOS. Please get the latest update from slippi.gg/netplay. "
-		"(The Slippi Launcher has automatic updates on macOS, and you should consider switching to that)"
+		"Automatic updates are not available for standalone Netplay builds on macOS. Please get the Slippi Launcher from slippi.gg/netplay."
 	);
 	return false;
 #else
 	const char *appimage_path = getenv("APPIMAGE");
 	const char *appmount_path = getenv("APPDIR");
-	if (!appimage_path)
+	if (!strlen(appimage_path))
 	{
 		CriticalAlertT("Automatic updates are not available for non-AppImage Linux builds.");
 		return false;
