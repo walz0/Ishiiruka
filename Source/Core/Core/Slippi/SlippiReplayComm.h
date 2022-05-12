@@ -29,6 +29,7 @@ class SlippiReplayComm
 		int endFrame = INT_MAX;
 		bool outputOverlayFiles;
 		bool isRealTimeMode;
+		int realTimeLimit = 2;
 		bool shouldResync; // If true, logic will attempt to resync games
 		std::string rollbackDisplayMethod; // off, normal, visible
 		std::string commandId;

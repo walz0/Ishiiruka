@@ -1341,7 +1341,7 @@ void CEXISlippi::prepareFrameData(u8 *payload)
 	}
 
 	// If RealTimeMode is enabled, let's trigger fast forwarding under certain conditions
-	auto isFarBehind = g_playbackStatus->latestFrame - frameIndex > 2;
+	auto isFarBehind = g_playbackStatus->latestFrame - frameIndex > commSettings.realTimeLimit;
 	auto isVeryFarBehind = g_playbackStatus->latestFrame - frameIndex > 25;
 	if (isFarBehind && commSettings.mode == "mirror" && commSettings.isRealTimeMode)
 	{
