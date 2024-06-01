@@ -3362,13 +3362,13 @@ void CEXISlippi::ConfigureJukebox()
 	// Exclusive WASAPI and the Jukebox do not play nicely, so we just don't bother enabling
 	// the Jukebox in that scenario - why bother doing the processing work when it's not even
 	// possible to play it?
-#ifdef _WIN32
+	// Jukebox will also respect no audio output
 	std::string backend = SConfig::GetInstance().sBackend;
-	if (backend.find(BACKEND_EXCLUSIVE_WASAPI) != std::string::npos)
+	if (backend.find(BACKEND_EXCLUSIVE_WASAPI) != std::string::npos ||
+	    backend.find(BACKEND_NULLSOUND) != std::string::npos)
 	{
 		return;
 	}
-#endif
 
 	bool jukeboxEnabled = SConfig::GetInstance().bSlippiJukeboxEnabled;
 	int systemVolume = SConfig::GetInstance().m_IsMuted ? 0 : SConfig::GetInstance().m_Volume;
