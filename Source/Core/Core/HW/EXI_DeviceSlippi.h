@@ -105,6 +105,7 @@ class CEXISlippi : public IEXIDevice
 		CMD_CHANGE_MUSIC_VOLUME = 0xD8,
 		CMD_PREMADE_TEXT_LENGTH = 0xE1,
 		CMD_PREMADE_TEXT_LOAD = 0xE2,
+		CMD_GET_RANK = 0xE3
 	};
 
 	enum
@@ -164,6 +165,7 @@ class CEXISlippi : public IEXIDevice
 	    {CMD_CHANGE_MUSIC_VOLUME, static_cast<u32>(sizeof(SlippiExiTypes::ChangeMusicVolumeQuery) - 1)},
 	    {CMD_PREMADE_TEXT_LENGTH, 0x2},
 	    {CMD_PREMADE_TEXT_LOAD, 0x2},
+	    {CMD_GET_RANK, 15}
 	};
 
 	struct WriteMessage
